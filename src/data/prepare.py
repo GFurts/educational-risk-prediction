@@ -63,6 +63,12 @@ def load_year(year: int) -> pd.DataFrame:
 
     df = pd.read_csv(path)
 
+    # Pega o INDE e Pedra do ano correto antes do rename
+    inde_col = {2022: "INDE 22", 2023: "INDE 2023", 2024: "INDE 2024"}
+    pedra_col = {2022: "Pedra 22", 2023: "Pedra 2023", 2024: "Pedra 2024"}
+    df["inde"] = df[inde_col[year]]
+    df["pedra"] = df[pedra_col[year]]
+
     # Padroniza nomes das colunas entre os anos
     RENAME = {
         "Nome": "nome",
@@ -95,10 +101,47 @@ def load_year(year: int) -> pd.DataFrame:
     }
     df = df.rename(columns=RENAME)
 
+    # Remove colunas desnecessárias
+    COLUNAS_REMOVER = [
+        "INDE 22",
+        "INDE 2023",
+        "INDE 2024",
+        "Pedra 20",
+        "Pedra 21",
+        "Pedra 22",
+        "Pedra 2023",
+        "Pedra 2024",
+        "Pedra 23",
+        "Cg",
+        "Cf",
+        "Ct",
+        "Nº Av",
+        "Avaliador1",
+        "Avaliador2",
+        "Avaliador3",
+        "Avaliador4",
+        "Avaliador5",
+        "Avaliador6",
+        "Rec Av1",
+        "Rec Av2",
+        "Rec Av3",
+        "Rec Av4",
+        "Rec Psicologia",
+        "Indicado",
+        "Destaque IEG",
+        "Destaque IDA",
+        "Destaque IPV",
+        "Destaque IPV.1",
+        "INDE 23",
+        "Escola",
+        "Ativo/ Inativo",
+        "Ativo/ Inativo.1",
+    ]
+    df = df.drop(columns=[c for c in COLUNAS_REMOVER if c in df.columns])
+
     log.info(f"Shape: {df.shape}")
 
     df["ano"] = year
-
     df["Fase"] = df["Fase"].apply(_extrair_fase)
 
     col_idade = "idade" if "idade" in df.columns else "idade"
