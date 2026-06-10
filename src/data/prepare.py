@@ -62,13 +62,46 @@ def load_year(year: int) -> pd.DataFrame:
     log.info(f"Carregando {path} ...")
 
     df = pd.read_csv(path)
+
+    # Padroniza nomes das colunas entre os anos
+    RENAME = {
+        "Nome": "nome",
+        "Nome Anonimizado": "nome",
+        "Idade 22": "idade",
+        "Idade": "idade",
+        "Ano nasc": "ano_nasc",
+        "Data de Nasc": "data_nasc",
+        "Gênero": "genero",
+        "Ano ingresso": "ano_ingresso",
+        "Instituição de ensino": "instituicao",
+        "Fase Ideal": "fase_ideal",
+        "Fase ideal": "fase_ideal",
+        "Defas": "defasagem",
+        "Defasagem": "defasagem",
+        "Matem": "nota_mat",
+        "Mat": "nota_mat",
+        "Portug": "nota_por",
+        "Por": "nota_por",
+        "Inglês": "nota_ing",
+        "Ing": "nota_ing",
+        "Atingiu PV": "ponto_virada",
+        "IAA": "iaa",
+        "IEG": "ieg",
+        "IPS": "ips",
+        "IDA": "ida",
+        "IPP": "ipp",
+        "IPV": "ipv",
+        "IAN": "ian",
+    }
+    df = df.rename(columns=RENAME)
+
     log.info(f"Shape: {df.shape}")
 
     df["ano"] = year
 
     df["Fase"] = df["Fase"].apply(_extrair_fase)
 
-    col_idade = "Idade" if "Idade" in df.columns else "Idade 22"
+    col_idade = "idade" if "idade" in df.columns else "idade"
     df[col_idade] = df[col_idade].apply(_extrair_idade)
 
     return df
