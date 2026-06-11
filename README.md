@@ -2,6 +2,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10-blue)](https://www.python.org/)
 [![Streamlit App](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://educational-risk-prediction.streamlit.app)
+[![CI](https://github.com/GFurts/educational-risk-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/GFurts/educational-risk-prediction/actions/workflows/ci.yml)
 
 Predictive model to identify students at risk of educational lag for [Associação Passos Mágicos](https://passosmagicos.org.br/), developed as part of the FIAP POSTECH Datathon — Data Analytics (Phase 5).
 
